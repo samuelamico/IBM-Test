@@ -113,8 +113,29 @@ biblioteca tweepy, com alguns topicos escolhidos para o projeto. Ao mesmo tempo 
 
 2. eventtwiiter: É o meu produtor de eventos do twitter, No caso rodando localmente eu defino um tempo de streaming consuming baseado na variavel self.limit.
 
+```bash
+python logwitter.py
+```
+
+
 ### Passo 3: Configurar Faust:
+
+O Faust é uma biblioteca de processamento de streaming, herdando ideias do Kafka Stream para o Python. Ele usa o robinhood para construir
+um sistema distribuido de alta performance e em tempo real -> piplines. [Faust](https://faust.readthedocs.io/en/latest/)
+
+O Faust funciona baseado no modelo de atores (actor models - processador de fluxo pode ser executado simultaneamente em muitos núcleos de CPU e em centenas de máquinas ao mesmo tempo.), porém se você usa o Celery, você pode pensar no Faust como sendo não apenas um executador de tarefas, mas ele mantem o histórico de tudo o que aconteceu até agora. Ou seja, as tarefas (“agentes” no Faust) podem manter o estado e também replicar esse estado para um cluster de instâncias do trabalhador Faust.
+
+Graças ao Faust o nosso programa pode ser escalavel de maneira tranquila - Tanto multicores quanto multimáquinas.
+
+Para mais detalhes do faust -> [detalhes](https://faust.readthedocs.io/en/latest/introduction.html#design-considerations)
+
+
+* Executando o consumidor realizando ao mesmo tempo a classificação dos textos(tweets):
 
 ```bash
 faust -A faust_stream worker -l info
 ```
+
+
+### Passo 3: Classificador de Tweets:
+
