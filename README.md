@@ -103,3 +103,18 @@ sudo  /usr/local/kafka/bin/kafka-console-consumer.sh --topic eventcrud.twitter.j
 Aconselho sempre a revisão detalhada na hora de criar topicos, não aconselho a sua automatização, é preciso muito estudo antes de sair
 escolhendo as configs, faça testes de compressão e analise bem seu benchmarking, para melhorar sua performance saiba equilibrar:
 * Brokes -> Replication -> Group Consumer -> Numero de Prod/Cons
+
+### Passo 2: Configurar Producer:
+
+Para rodar o Produtor existem os seguintes arquivos:
+
+1. logwitter: É o core do produtor, onde a API do twitter é utilizada de forma assincrona utilizando uma classe desenvolvida pela
+biblioteca tweepy, com alguns topicos escolhidos para o projeto. Ao mesmo tempo que a classe de streaming está consumindo tweets ela envia para um tópico Kafka os eventos filtrados. O formato que melhor se adequa para processamento de streaming é o Avro.
+
+2. eventtwiiter: É o meu produtor de eventos do twitter, No caso rodando localmente eu defino um tempo de streaming consuming baseado na variavel self.limit.
+
+### Passo 3: Configurar Faust:
+
+```bash
+faust -A faust_stream worker -l info
+```
