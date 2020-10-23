@@ -139,3 +139,27 @@ faust -A faust_stream worker -l info
 
 ### Passo 3: Classificador de Tweets:
 
+Primeira parte para começar a desenvolver o modelo de ML, primeiro eu coletei alguns twettes do streaming API e salvando em um json apenas com o intuito de analisar com mais calma. Através do Kaggle, eu busquei um arquivo de treinamento e usando meus arquivos jsons para um set de teste. Em um problema de text e ML, a primeira coisa que vem na mente para começar o processamento do modelo é o pre-processamento dos twettes. No caso 3 funções para pre-processar foram utilizadas: Remover StopWords, limpara os textos - remover url e Steaming.
+
+Os primeiros modelos testados foram o MultinomialNB e RandomForest que apresentaram bons resultados: metrica de predição de 0.866 (No notebook existem as metricas utilizadas). Por fim eu testei o Naive Bayes (eu ja havia testado esse algoritmo antes no meu estagio e ja sabia de antemão uma previsão boa).
+
+O modelo escolhido foi o Naive Bayes devido sua boa performance - fator decisivo para streaming data - e bons resultados de metrica. Por fim, o modelo foi salvo em um arquivo binario - pickle - e quando o faust inicia o processamento de dados ele ja lê o pickle.
+
+
+### Passo 4: Real-Time Dashboards:
+
+Por fim, os twetts - eventos - ja classificados pelo Faust são enviados para o ElasticSearch, onde através do Kibana podemos analisar
+os eventos no Dashboards:
+
+![Dashboards](Images/Dashboard.PNG)
+
+
+![Relatorios](Images/Relatorio.PNG)
+
+
+Podemos ter uma visão em tempo-real dos eventos classificados.
+
+
+### Video - Teste:
+
+Existe um video que mostra a demonstração do projeto completo.
